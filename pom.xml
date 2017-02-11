@@ -94,6 +94,16 @@ limitations under the License.
       <artifactId>jquery</artifactId>
       <version>3.1.0</version>
     </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>${guava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.objectify</groupId>
+      <artifactId>objectify</artifactId>
+      <version>${objectify.version}</version>
+    </dependency>
 
     <!-- Test Dependencies -->
     <dependency>
