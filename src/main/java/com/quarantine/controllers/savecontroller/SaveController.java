@@ -1,6 +1,6 @@
 package com.quarantine.controllers.savecontroller;
 
-import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.quarantine.beans.ToDoListBean;
@@ -26,6 +26,22 @@ public class SaveController {
         System.out.println("Active List output: " + todolist.toString());
 
         //Save bean object to datastore
+        Key itemKey;
+        itemKey = KeyFactory.createKey("email",userService.getCurrentUser().getEmail());
+        for(int i = 0; i < todolist.getItems().size(); i++){
+            Entity item = new Entity("Item",itemKey);
+            item.setProperty("Category",todolist.getItems().get(i).getCategory());
+            item.setProperty("Description",todolist.getItems().get(i).getDescription());
+            item.setProperty("StartDate",todolist.getItems().get(i).getDescription());
+            item.setProperty("EndDate",todolist.getItems().get(i).getDescription());
+            item.setProperty("Completed",todolist.getItems().get(i).getCompleted());
+            item.setProperty("isPrivate",todolist.isPrivate());
+            item.setProperty("SpecialID",todolist.getId());
+
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            datastore.put(item);
+        }
+
 
     }
 }
