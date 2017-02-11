@@ -2,6 +2,7 @@ package com.quarantine.beans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Karl on 2/8/2017.
@@ -51,6 +52,14 @@ public class ToDoListBean implements Serializable {
 
     public String getId() {
         return id;
+    }
+
+    public String generateId(){
+        Random rand = new Random();
+
+        int  n = rand.nextInt(10000) + 1;
+
+        return Integer.toString(n);
     }
 
     public boolean isPrivate() {
