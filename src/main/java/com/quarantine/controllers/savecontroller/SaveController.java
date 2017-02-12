@@ -27,12 +27,13 @@ public class SaveController {
 
 
         String id = todolist.generateId();
+        todolist.setId(id);
 
         //Save bean object to datastore
 
         for(int i = 0; i < todolist.getItems().size(); i++){
             Key itemKey;
-            itemKey = KeyFactory.createKey("email",userService.getCurrentUser().getEmail());
+            itemKey = KeyFactory.createKey("PID",todolist.getItems().get(i).getItemID());
             Entity item = new Entity("Item",itemKey);
             item.setProperty("Category",todolist.getItems().get(i).getCategory());
             item.setProperty("Description",todolist.getItems().get(i).getDescription());
@@ -41,6 +42,8 @@ public class SaveController {
             item.setProperty("Completed",todolist.getItems().get(i).getCompleted());
             item.setProperty("isPrivate",todolist.isPrivate());
             item.setProperty("SpecialID",id);
+            item.setProperty("Email",userService.getCurrentUser().getEmail());
+            item.setProperty("PrimaryID",todolist.getItems().get(i).getItemID());
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(item);
         }

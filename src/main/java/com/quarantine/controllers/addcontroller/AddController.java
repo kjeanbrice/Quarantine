@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 
 /**
  * Created by Karl on 2/8/2017.
@@ -33,11 +34,20 @@ public class AddController {
         String endDate = request.getParameter("endDate");
         String completed = request.getParameter("completed");
 
+
+
         if (category.trim().length() == 0 || description.trim().length() == 0 || startDate.trim().length() == 0
                 || endDate.trim().length() == 0 || completed.trim().length() == 0) {
             out.println("FAILURE");
         } else {
             ItemBean newItem = new ItemBean(category, description, startDate, endDate, completed);
+
+            Random rand = new Random();
+
+            int  n = rand.nextInt(10000) + 1;
+
+            newItem.setItemID(n);
+
             list.addItem(newItem);
 
             out.println("SUCCESS");
