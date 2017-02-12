@@ -11,7 +11,7 @@ public class ItemBean implements Serializable{
     private String startDate;
     private String endDate;
     private String completed;
-    private int itemID;
+    private String itemID;
     private static int itemCount = 0;
 
 
@@ -23,7 +23,7 @@ public class ItemBean implements Serializable{
         this.startDate = startDate;
         this.endDate = endDate;
         this.completed = completed;
-        this.itemID = itemCount++;
+      //  this.itemID = itemCount++;
     }
 
 
@@ -75,9 +75,11 @@ public class ItemBean implements Serializable{
         this.completed = completed;
     }
 
-    public int getItemID(){
+    public String getItemID(){
         return this.getItemID();
     }
+
+    public void setItemID(String id){this.itemID = id;}
 
     @Override
     public String toString() {

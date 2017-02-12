@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Random;
 
 @Controller
 public class SaveController {
@@ -27,6 +28,7 @@ public class SaveController {
 
 
         String id = todolist.generateId();
+        todolist.setId(id);
 
         //Save bean object to datastore
 
@@ -41,6 +43,12 @@ public class SaveController {
             item.setProperty("Completed",todolist.getItems().get(i).getCompleted());
             item.setProperty("isPrivate",todolist.isPrivate());
             item.setProperty("SpecialID",id);
+
+            Random rand = new Random();
+
+            int  n = rand.nextInt(10000) + 1;
+
+            item.setProperty("UniqueID",todolist.getItems().get(i).getItemID());
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(item);
         }
