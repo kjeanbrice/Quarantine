@@ -46,7 +46,7 @@ public class AddController {
 
             int  n = rand.nextInt(10000) + 1;
 
-            newItem.setItemID(Integer.toString(n));
+            newItem.setDSID(Integer.toString(n));
 
             list.addItem(newItem);
 

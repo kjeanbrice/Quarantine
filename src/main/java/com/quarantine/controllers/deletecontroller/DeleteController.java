@@ -28,14 +28,14 @@ public class DeleteController {
         ItemBean item = (ItemBean) request.getSession().getAttribute("SELECTED_ITEM");
 
         String id;
-        id = item.getItemID();
+        id = item.getDSID();
 
         listBean.getItems().remove(item);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query();
 
-        query.setFilter(Query.FilterOperator.EQUAL.of("UniqueID",id));
+        query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",id));
         PreparedQuery result = datastore.prepare(query);
         Entity resultitem = result.asSingleEntity();
         datastore.delete(resultitem.getKey());

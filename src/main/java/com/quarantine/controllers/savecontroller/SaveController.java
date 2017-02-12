@@ -34,7 +34,7 @@ public class SaveController {
 
         for(int i = 0; i < todolist.getItems().size(); i++){
             Key itemKey;
-            itemKey = KeyFactory.createKey("email",userService.getCurrentUser().getEmail());
+            itemKey = KeyFactory.createKey("PID",todolist.getItems().get(i).getDSID());
             Entity item = new Entity("Item",itemKey);
             item.setProperty("Category",todolist.getItems().get(i).getCategory());
             item.setProperty("Description",todolist.getItems().get(i).getDescription());
@@ -43,12 +43,8 @@ public class SaveController {
             item.setProperty("Completed",todolist.getItems().get(i).getCompleted());
             item.setProperty("isPrivate",todolist.isPrivate());
             item.setProperty("SpecialID",id);
-
-            Random rand = new Random();
-
-            int  n = rand.nextInt(10000) + 1;
-
-            item.setProperty("UniqueID",todolist.getItems().get(i).getItemID());
+            item.setProperty("Email",userService.getCurrentUser().getEmail());
+            item.setProperty("PrimaryID",todolist.getItems().get(i).getDSID());
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(item);
         }
