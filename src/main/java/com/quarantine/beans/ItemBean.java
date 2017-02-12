@@ -77,7 +77,7 @@ public class ItemBean implements Serializable{
     }
 
     public int getItemID(){
-        return this.getItemID();
+        return this.itemID;
     }
 
     public void setItemID(int id){this.itemID = id;}
