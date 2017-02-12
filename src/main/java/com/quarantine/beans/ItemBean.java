@@ -11,6 +11,9 @@ public class ItemBean implements Serializable{
     private String startDate;
     private String endDate;
     private String completed;
+    private int itemID;
+    private static int itemCount = 0;
+
 
 
 
@@ -20,6 +23,7 @@ public class ItemBean implements Serializable{
         this.startDate = startDate;
         this.endDate = endDate;
         this.completed = completed;
+        this.itemID = itemCount++;
     }
 
 
@@ -71,6 +75,10 @@ public class ItemBean implements Serializable{
         this.completed = completed;
     }
 
+    public int getItemID(){
+        return this.getItemID();
+    }
+
     @Override
     public String toString() {
         return "ItemBean{" +
@@ -81,4 +89,27 @@ public class ItemBean implements Serializable{
                 ", completed='" + completed + '\'' +
                 '}';
     }
+
+    public String generateJSON() {
+
+        String outputString = "{\"category\":\"" + category + "\","
+                + "\"description\":\"" + description + "\","
+                + "\"startDate\":\"" + startDate + "\",";
+
+        outputString += "\"endDate\":\"" + endDate + "\","
+                + "\"itemID\":\"" + itemID + "\","
+                +"\"completed\":\"" + completed + "\"";
+
+        outputString += "}";
+
+        return outputString;
+    }
+
+    /*
+      private String category;
+    private String description;
+    private String startDate;
+    private String endDate;
+    private String completed;
+     */
 }

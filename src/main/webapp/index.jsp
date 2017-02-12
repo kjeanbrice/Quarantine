@@ -51,144 +51,105 @@
                 <a href="#" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
             </li>
             <li>
-                <a id = "a_email" href="javascript:void(0)"></a>
+                <a id="a_email" href="javascript:void(0)"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
-            <li><a href="/login.htm"><span class="glyphicon glyphicon-log-in"></span> <span id = "a_login"></span></a></li>
+            <li><a href="/login.htm"><span class="glyphicon glyphicon-log-in"></span> <span id="a_login"></span></a>
+            </li>
         </ul>
     </div>
 </nav>
 
-<div area="content_area" class="container hide-tag">
-    <div class="row-padding row">
-        <span class="col-md-2 heading-label">To Do List</span>
-    </div>
+<div class="container">
 
+    <!-- <div class = "row">
+         <div area = "welcome_area" class = "col-xs-4 col-xs-offset-4 center hide-tag">
+             <div  class = "vertical-center welcome-properties">
+                 <span>WELCOME</span>
+             </div>
+         </div>
+     </div> -->
 
-    <div class=" form-group border-pane">
-        <div class="row">
-            <span class="col-md-2 subheading-label">Details</span>
+    <div area="content_area" class="hide-tag">
+        <div class="row-padding row">
+            <span class="col-md-2 heading-label">To Do List</span>
         </div>
-        <div class="style-glow">
+
+
+        <div class=" form-group border-pane">
             <div class="row">
-                <div class="col-md-2">
-                    <label for="list_name" class="input-label col-form-label">List name: </label>
-                </div>
-                <div class="col-md-2">
-                    <input type="text" id="list_name">
-                </div>
-                <div class="col-md-8"></div>
+                <span class="col-md-2 subheading-label">Details</span>
             </div>
+            <div class="style-glow">
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="list_name" class="input-label col-form-label">List name: </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="list_name">
+                    </div>
+                    <div class="col-md-8"></div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label for="owner_name" class="input-label col-form-label">Owner: </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" id="owner_name">
+                    </div>
+                    <div class="col-md-8"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group border-pane">
             <div class="row">
-                <div class="col-md-2">
-                    <label for="owner_name" class="input-label col-form-label">Owner: </label>
+                <span class="col-md-2 subheading-label subheading-padding">Items</span>
+            </div>
+            <div class="row subheading-padding">
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#add_modal">
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete_modal">
+                        <span class="glyphicon glyphicon-minus-sign"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary">
+                        <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                    </button>
+                    <button type="button" class="btn btn-secondary">
+                        <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                    </button>
                 </div>
-                <div class="col-md-2">
-                    <input type="text" id="owner_name">
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-hover" width="100%" cellspacing="0">
+                        <thead>
+                        <tr class = "row2 header">
+                            <th class="disable-header ro disable-select">Category</th>
+                            <th class="disable-header disable-select">Description</th>
+                            <th class="disable-header disable-select">Start Date</th>
+                            <th class="disable-header disable-select">End Date</th>
+                            <th class="disable-header disable-select">Completed</th>
+                        </tr>
+                        </thead>
+                        <tbody id="item_area" class="tbody-default">
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="col-md-8"></div>
             </div>
         </div>
-    </div>
-
-    <div class="form-group border-pane">
-        <div class="row">
-            <span class="col-md-2 subheading-label subheading-padding">Items</span>
-        </div>
-        <div class="row subheading-padding">
-            <div class="col-md-6">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#add_modal">
-                    <span class="glyphicon glyphicon-plus-sign"></span>
-                </button>
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete_modal">
-                    <span class="glyphicon glyphicon-minus-sign"></span>
-                </button>
-                <button type="button" class="btn btn-secondary">
-                    <span class="glyphicon glyphicon-circle-arrow-up"></span>
-                </button>
-                <button type="button" class="btn btn-secondary">
-                    <span class="glyphicon glyphicon-circle-arrow-down"></span>
-                </button>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-bordered" width="100%" cellspacing="0">
-                    <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Description</th>
-                        <th>Start Date</th>
-                        <th>End Date</th>
-                        <th>Completed</th>
-                    </tr>
-                    </thead>
-                    <tbody class="tbody-default">
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 </div>
 
@@ -207,27 +168,27 @@
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Category</label>
                         <div class="col-lg-9">
-                            <input id = "txt_category" type="text" placeholder="" name="txt_category"
+                            <input id="txt_category" type="text" placeholder="" name="txt_category"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Description</label>
                         <div class="col-lg-9">
-                            <input id = "txt_description" type="text" placeholder=""  name="txt_description"
+                            <input id="txt_description" type="text" placeholder="" name="txt_description"
                                    class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">Start Date</label>
                         <div class="col-lg-9">
-                            <input id = "txt_startdate" type="text" placeholder="" name="txt_start" class="form-control">
+                            <input id="txt_startdate" type="text" placeholder="" name="txt_start" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-lg-3 control-label">End Date</label>
                         <div class="col-lg-9">
-                            <input id = "txt_enddate" type="text" placeholder=""  name="txt_end" class="form-control">
+                            <input id="txt_enddate" type="text" placeholder="" name="txt_end" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
@@ -242,7 +203,8 @@
                         <div class="col-lg-offset-3 col-lg-9">
                             <span access="admin" class="lbl-error" id="err_add_item"></span>
                             <br>
-                            <button class="btn btn-primary pull-right" type="button" id="btn_add_submit">Add Item</button>
+                            <button class="btn btn-primary pull-right" type="button" id="btn_add_submit">Add Item
+                            </button>
                         </div>
                     </div>
                 </form>
@@ -287,10 +249,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><b>New Item</b></h4>
+                <h4 class="modal-title"><b>New List</b></h4>
             </div>
             <div class="modal-body">
-                <p><b>A new item has been created.</b></p>
+                <p><b><span id="new_textarea"></span></b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -299,8 +261,70 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="edit_modal" class="modal fade"
+     style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                <h4 class="modal-title">Edit This Item</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Category</label>
+                        <div class="col-lg-9">
+                            <input id="edit_category" type="text" placeholder="" name="edit_category"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Description</label>
+                        <div class="col-lg-9">
+                            <input id="edit_description" type="text" placeholder="" name="edit_description"
+                                   class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">Start Date</label>
+                        <div class="col-lg-9">
+                            <input id="edit_startdate" type="text" placeholder="" name="edit_start" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-lg-3 control-label">End Date</label>
+                        <div class="col-lg-9">
+                            <input id="edit_enddate" type="text" placeholder="" name="edit_end" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="chkbox_completed" class="col-lg-3 control-label">Completed</label>
+                        <div class="col-lg-3">
+                            <input type="checkbox" value="" id="edit_completed" name="edit_completed"
+                                   class="checkbox-inline">
+                        </div>
+                        <div class="col-lg-offset-6"></div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-3 col-lg-9">
+                            <span id = "edit_id" edit_id = ""></span>
+                            <span access="admin" class="lbl-error" id="err_edit_item"></span>
+                            <br>
+                            <button class="btn btn-primary pull-right" type="button" id="btn_edit_submit">Edit Item
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 </body>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
 <script src="webresources/js/to_do_list_transactions.js"></script>
 </html>

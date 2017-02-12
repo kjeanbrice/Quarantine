@@ -7,6 +7,42 @@ body {
     padding-top: 70px;
     padding-bottom: 70px;
 }
+
+body * {
+    box-sizing: border-box;
+    font-family: Open Sans,sans-serif;
+}
+
+.disable-select{
+    -moz-user-select:none;
+}
+
+
+.disable-header:hover {
+    cursor: default;
+}
+
+.welcome-properties{
+    font-size: 65px;
+    font-weight: 300;
+}
+
+.vertical-center {
+    min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+    min-height: 100vh; /* These two lines are counted as one :-)       */
+
+    display: flex;
+    align-items: center;
+}
+
+.center-welcome{
+    width:650px;
+    height: auto;
+    margin: 0 auto;
+    padding: 10px;
+    position: relative;
+}
+
 .background-app {
     background-color: #aaaaff;
     width: 100%;
@@ -119,5 +155,15 @@ body {
     background: #ffffff;
     empty-cells: hide;
     border: 0px;
+}
+
+.row2 {
+    display: table-row;
+    background: #f6f6f6;
+}
+.row2.header {
+    font-weight: 900;
+    color: #000000;
+    background: #f6f6f6;
 }
 

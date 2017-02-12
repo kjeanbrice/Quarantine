@@ -26,10 +26,10 @@ public class NewListController {
         if(userService.isUserLoggedIn()) {
             ToDoListBean newList = new ToDoListBean();
             request.getSession().setAttribute("ACTIVE_LIST", newList);
-            out.println("SUCCESS");
+            out.println("NEWLIST:SUCCESS");
         }
         else{
-            out.println("FAILURE");
+            out.println("NEWLIST:FAILURE");
         }
     }
 }

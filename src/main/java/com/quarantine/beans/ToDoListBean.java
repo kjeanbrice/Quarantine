@@ -94,4 +94,32 @@ public class ToDoListBean implements Serializable {
                 ", isPrivate=" + isPrivate +
                 '}';
     }
+
+    public String generateJSON() {
+        String outputString = "{\"email\":\"" + email + "\","
+                + "\"owner\":\"" + owner + "\","
+                + "\"id\":\"" + id + "\","
+                + "\"private\":\"" + isPrivate + "\","
+                + "\"Items\":[";
+
+        if (items.isEmpty()) {
+            outputString = "{\"email\":" + email + ","
+                    + "\"owner\":\"" + owner + "\","
+                    + "\"id\":\"" + id + "\","
+                    + "\"private\":\"" + isPrivate + "\"}";
+            return outputString;
+        }
+
+        for (int i = 0; i < items.size(); i++) {
+            if (i == items.size() - 1) {
+                outputString += items.get(i).generateJSON() + "]";
+            } else {
+                outputString += items.get(i).generateJSON() + ",";
+            }
+        }
+
+        outputString += "}";
+
+        return outputString;
+    }
 }

@@ -18,6 +18,8 @@ import java.io.PrintWriter;
  */
 @Controller
 public class AddController {
+
+
     @RequestMapping(value = "additem.htm", method = RequestMethod.GET)
     public void processAddRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
