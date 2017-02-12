@@ -29,20 +29,39 @@ public class DeleteController {
 
         ItemBean removeitem = null;
 
-        for(int i = 0; i < listBean.getItems().size(); i++){
-            if(listBean.getItems().get(i).getItemID() == Integer.parseInt(item)){
-                removeitem = listBean.getItems().get(i);
+        if(listBean.getItems().isEmpty()){
+            System.out.println("NO ITEMS");
+        }
+        else {
+            for (int i = 0; i < listBean.getItems().size(); i++) {
+                if (listBean.getItems().get(i).getItemID() == Integer.parseInt(item)) {
+                    removeitem = listBean.getItems().get(i);
+                    break;
+                }
             }
         }
-        listBean.getItems().remove(removeitem);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query();
 
-        query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
-        PreparedQuery result = datastore.prepare(query);
-        Entity resultitem = result.asSingleEntity();
-        datastore.delete(resultitem.getKey());
+            Query.Filter propertyFilter = new Query.FilterPredicate("PrimaryID", Query.FilterOperator.EQUAL,item);
+            Query q = new Query("PIDItem").setFilter(propertyFilter);
+            PreparedQuery pq = datastore.prepare(q);
+            System.out.println(pq);
+            Entity itemtoremove = pq.asSingleEntity();
+            System.out.println(itemtoremove);
+            if(itemtoremove == null){
+                System.out.println("Did not find");
+            }
+            else{
+                System.out.println("Found");
+                datastore.delete(itemtoremove.getKey());
+                listBean.getItems().remove(removeitem);
+                System.out.println("ITEM REMOVED");
+                System.out.println(removeitem.getItemID());
+            }
+
+
+
 
 
 
