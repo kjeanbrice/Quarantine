@@ -44,11 +44,11 @@
             </li>
 
             <li>
-                <a href="#" title="Load an existing to do list"><span class="glyphicon glyphicon-folder-open"></span>
+                <a id="load_list" href="javascript:void(0)" title="Load an existing to do list"><span class="glyphicon glyphicon-folder-open"></span>
                     Load List</a>
             </li>
             <li>
-                <a href="#" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
+                <a id="save_list" href="javascript:void(0)" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
             </li>
             <li>
                 <a id="a_email" href="javascript:void(0)"></a>
@@ -73,7 +73,7 @@
 
     <div area="content_area" class="hide-tag">
         <div class="row-padding row">
-            <span class="col-md-2 heading-label">To Do List</span>
+            <span class="col-md-4 heading-label">Things To Do:</span>
         </div>
 
 
@@ -89,7 +89,10 @@
                     <div class="col-md-2">
                         <input type="text" id="list_name">
                     </div>
-                    <div class="col-md-8"></div>
+                    <div class = "col-md-4">
+                        <span access="admin" class="lbl-error" id="err_save_item"></span>
+                    </div>
+                    <div class="col-md-4"></div>
                 </div>
                 <div class="row">
                     <div class="col-md-2">
@@ -105,20 +108,20 @@
 
         <div class="form-group border-pane">
             <div class="row">
-                <span class="col-md-2 subheading-label subheading-padding">Items</span>
+                <span class="col-md-2 subheading-label subheading-padding">List</span>
             </div>
             <div class="row subheading-padding">
                 <div class="col-md-6">
                     <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#add_modal">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete_modal">
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" id = "btn_delete_glyph">
                         <span class="glyphicon glyphicon-minus-sign"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary">
-                        <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                    <button id = "btn_move_up" type="button" class="btn btn-secondary">
+                        <span  class="glyphicon glyphicon-circle-arrow-up"></span>
                     </button>
-                    <button type="button" class="btn btn-secondary">
+                    <button  id = "btn_move_down" type="button" class="btn btn-secondary">
                         <span class="glyphicon glyphicon-circle-arrow-down"></span>
                     </button>
                 </div>
@@ -127,18 +130,46 @@
 
             <div class="row">
                 <div class="col-md-12">
-                    <table class="table table-hover" width="100%" cellspacing="0">
+                    <table class="table table-hover table-bordered" width="100%" cellspacing="0">
                         <thead>
                         <tr class = "row2 header">
-                            <th class="disable-header ro disable-select">Category</th>
-                            <th class="disable-header disable-select">Description</th>
-                            <th class="disable-header disable-select">Start Date</th>
-                            <th class="disable-header disable-select">End Date</th>
+                            <th methodval ="default" id = "header_category" class="disable-header ro disable-select">Category <span id = "category_image" class="glyphicon"></span></th>
+                            <th methodval ="default" id = "header_description"  class="disable-header disable-select">Description <span id = "description_image" class="glyphicon"></span></th>
+                            <th methodval ="default" id = "header_startdate" class="disable-header disable-select">Start Date <span id = "startdate_image" class="glyphicon"></span></th>
+                            <th methodval ="default" id = "header_enddate" class="disable-header disable-select">End Date <span id = "enddate_image" class="glyphicon"></span></th>
                             <th class="disable-header disable-select">Completed</th>
                         </tr>
                         </thead>
                         <tbody id="item_area" class="tbody-default">
                         <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                        <tr >
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
                             <td>&nbsp;</td>
@@ -232,7 +263,7 @@
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-8">
                             <button class="btn btn-primary" type="button" id="btn_delete_confirm"> Yes</button>
-                            <button class="btn btn-primary" aria-hidden="true" data-dismiss="modal" type="button"> No
+                            <button class="btn btn-primary" aria-hidden="true" id = "btn_delete_close" data-dismiss="modal" type="button"> No
                             </button>
                         </div>
                     </div>
@@ -242,17 +273,17 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="new_modal" class="modal fade"
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="notification_modal" class="modal fade"
      style="display: none;">
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><b>New List</b></h4>
+                <h4 class="modal-title"><b><span id = "notification_title"></span></b></h4>
             </div>
             <div class="modal-body">
-                <p><b><span id="new_textarea"></span></b></p>
+                <p><b><span id="notification_textarea"></span></b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
