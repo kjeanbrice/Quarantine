@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     var list_items_template = "" +
             "{{#Items}}" +
-            "<tr class='list_item' item_id = '{{itemID}}'>" +
+            "<tr class='list_item' item_id = '{{frontID}}'>" +
             "<td class= 'category'  item_value='{{category}}'>{{category}}</td>" +
             "<td class= 'description' item_value='{{description}}'>{{description}}</td>" +
             "<td class= 'startDate' item_value='{{startDate}}'>{{startDate}}</td>" +
@@ -52,7 +52,7 @@ $(document).ready(function () {
                 var JSON_list_items = item_table;
 
                 var item_category_output = "First member " + JSON_list_items.email + " " + JSON_list_items.owner;
-                console.log("Items: " + item_table.Items[0].category);
+                //console.log("Items: " + item_table.Items[0].category);
 
 
                 var list_data = Mustache.render(list_items_template, JSON_list_items);
@@ -206,7 +206,7 @@ $(document).ready(function () {
         }
 
 
-        var url = "/deleteitem.htm?itemID=" + item_id;
+        var url = "/deleteitem.htm?frontID=" + item_id;
         $.ajax({
             method: 'get',
             url: url,
@@ -233,7 +233,7 @@ $(document).ready(function () {
         if ($('.list_item.selectTable').length) {
             item_id = $('.list_item.selectTable').attr("item_id");
 
-            var url = "/moveupitem.htm?itemID=" + item_id;
+            var url = "/moveupitem.htm?frontID=" + item_id;
             $.ajax({
                 method: 'get',
                 url: url,
@@ -262,7 +262,7 @@ $(document).ready(function () {
         if ($('.list_item.selectTable').length) {
             item_id = $('.list_item.selectTable').attr("item_id");
 
-            var url = "/movedownitem.htm?itemID=" + item_id;
+            var url = "/movedownitem.htm?frontID=" + item_id;
             $.ajax({
                 method: 'get',
                 url: url,
@@ -475,7 +475,7 @@ $(document).ready(function () {
         err_label.hide();
 
 
-        var url = "/edititem.htm?category=" + category + "&itemID=" + item_id + "&description=" + description + "&startDate=" + startdate + "&endDate=" + enddate + "&completed=" + completed;
+        var url = "/edititem.htm?category=" + category + "&frontID=" + item_id + "&description=" + description + "&startDate=" + startdate + "&endDate=" + enddate + "&completed=" + completed;
         $.ajax({
             method: 'get',
             url: url,

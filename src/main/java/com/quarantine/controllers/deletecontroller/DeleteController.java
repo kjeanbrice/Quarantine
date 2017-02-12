@@ -22,29 +22,41 @@ public class DeleteController {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+
         ToDoListBean listBean = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
 
         //ASSUMIGN WE HAVE A WAY TO DETERMINE WHICH ONE IS SELECTED
-        String item = request.getParameter("itemID");
+        int item = -1;
+        String res = "FAILURE";
+        int itemIndex = -1;
+
+        String frontID = request.getParameter("frontID");
 
         ItemBean removeitem = null;
-
         for(int i = 0; i < listBean.getItems().size(); i++){
-            if(listBean.getItems().get(i).getItemID() == Integer.parseInt(item)){
+            if(listBean.getItems().get(i).getFrontMappingID() == Integer.parseInt(frontID)){
                 removeitem = listBean.getItems().get(i);
+               item = removeitem.getItemID();
+                itemIndex = i;
             }
         }
-        listBean.getItems().remove(removeitem);
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Query query = new Query();
+        if(removeitem != null){
+            listBean.getItems().remove(itemIndex);
+            res = "SUCCESS";
 
-        query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
-        PreparedQuery result = datastore.prepare(query);
-        Entity resultitem = result.asSingleEntity();
-        datastore.delete(resultitem.getKey());
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            Query query = new Query("Item");
 
+            query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
+            PreparedQuery result = datastore.prepare(query);
+            for(Entity e:result.asIterable()){
+                System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
+                datastore.delete(e.getKey());
+            }
+        }
 
+        out.println(res);
 
     }
 }
