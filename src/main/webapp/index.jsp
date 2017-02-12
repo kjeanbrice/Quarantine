@@ -48,7 +48,7 @@
                     Load List</a>
             </li>
             <li>
-                <a href="#" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
+                <a id="save_list" href="#" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
             </li>
             <li>
                 <a id="a_email" href="javascript:void(0)"></a>
