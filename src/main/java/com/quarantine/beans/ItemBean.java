@@ -11,6 +11,7 @@ public class ItemBean implements Serializable{
     private String startDate;
     private String endDate;
     private String completed;
+    private int frontMappingID;
     private int itemID;
 
     private static int itemCount = 0;
@@ -24,7 +25,7 @@ public class ItemBean implements Serializable{
         this.startDate = startDate;
         this.endDate = endDate;
         this.completed = completed;
-        this.itemID = itemCount++;
+        this.frontMappingID = itemCount++;
     }
 
 
@@ -77,10 +78,17 @@ public class ItemBean implements Serializable{
     }
 
     public int getItemID(){
-        return this.getItemID();
+        return this.itemID;
     }
 
-    public void setItemID(int id){this.itemID = id;}
+    public int getFrontMappingID(){
+        return this.frontMappingID;
+    }
+
+    public void setItemID(int id){
+        this.itemID = id;
+    }
+
     @Override
     public String toString() {
         return "ItemBean{" +
@@ -99,7 +107,7 @@ public class ItemBean implements Serializable{
                 + "\"startDate\":\"" + startDate + "\",";
 
         outputString += "\"endDate\":\"" + endDate + "\","
-                + "\"itemID\":\"" + itemID + "\","
+                + "\"frontID\":\"" + this.frontMappingID + "\","
                 +"\"completed\":\"" + completed + "\"";
 
         outputString += "}";

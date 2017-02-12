@@ -9,6 +9,7 @@ import java.util.Random;
  */
 public class ToDoListBean implements Serializable {
 
+    private String listname;
     private String email;
     private String owner;
     private String id;
@@ -17,15 +18,26 @@ public class ToDoListBean implements Serializable {
 
 
     public ToDoListBean() {
-        this("default", "default", "default", false);
+        this("default","default" ,"default", "default", false);
     }
 
-    public ToDoListBean(String email, String id, String owner, boolean isPrivate) {
+
+    public ToDoListBean(String email, String listname , String id, String owner, boolean isPrivate) {
+        this.listname = listname;
         this.email = email;
+
         this.id = id;
         this.isPrivate = isPrivate;
         this.owner = owner;
         this.items = new ArrayList<>();
+    }
+
+    public String getListname() {
+        return listname;
+    }
+
+    public void setListname(String listname) {
+        this.listname = listname;
     }
 
     public void setItems(ArrayList<ItemBean> items) {
@@ -87,7 +99,8 @@ public class ToDoListBean implements Serializable {
     @Override
     public String toString() {
         return "ToDoListBean{" +
-                "email='" + email + '\'' +
+                "listname='" + listname + '\'' +
+                ", email='" + email + '\'' +
                 ", owner='" + owner + '\'' +
                 ", id='" + id + '\'' +
                 ", items=" + items +
@@ -103,7 +116,7 @@ public class ToDoListBean implements Serializable {
                 + "\"Items\":[";
 
         if (items.isEmpty()) {
-            outputString = "{\"email\":" + email + ","
+            outputString = "{\"email\":\"" + email + "\","
                     + "\"owner\":\"" + owner + "\","
                     + "\"id\":\"" + id + "\","
                     + "\"private\":\"" + isPrivate + "\"}";

@@ -22,48 +22,41 @@ public class DeleteController {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
 
+
         ToDoListBean listBean = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
 
         //ASSUMIGN WE HAVE A WAY TO DETERMINE WHICH ONE IS SELECTED
-        String item = request.getParameter("itemID");
+        int item = -1;
+        String res = "FAILURE";
+        int itemIndex = -1;
+
+        String frontID = request.getParameter("frontID");
 
         ItemBean removeitem = null;
-
-        if(listBean.getItems().isEmpty()){
-            System.out.println("NO ITEMS");
-        }
-        else {
-            for (int i = 0; i < listBean.getItems().size(); i++) {
-                if (listBean.getItems().get(i).getItemID() == Integer.parseInt(item)) {
-                    removeitem = listBean.getItems().get(i);
-                    break;
-                }
+        for(int i = 0; i < listBean.getItems().size(); i++){
+            if(listBean.getItems().get(i).getFrontMappingID() == Integer.parseInt(frontID)){
+                removeitem = listBean.getItems().get(i);
+               item = removeitem.getItemID();
+                itemIndex = i;
             }
         }
 
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        if(removeitem != null){
+            listBean.getItems().remove(itemIndex);
+            res = "SUCCESS";
 
-            Query.Filter propertyFilter = new Query.FilterPredicate("PrimaryID", Query.FilterOperator.EQUAL,item);
-            Query q = new Query("PIDItem").setFilter(propertyFilter);
-            PreparedQuery pq = datastore.prepare(q);
-            System.out.println(pq);
-            Entity itemtoremove = pq.asSingleEntity();
-            System.out.println(itemtoremove);
-            if(itemtoremove == null){
-                System.out.println("Did not find");
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+            Query query = new Query("Item");
+
+            query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
+            PreparedQuery result = datastore.prepare(query);
+            for(Entity e:result.asIterable()){
+                System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
+                datastore.delete(e.getKey());
             }
-            else{
-                System.out.println("Found");
-                datastore.delete(itemtoremove.getKey());
-                listBean.getItems().remove(removeitem);
-                System.out.println("ITEM REMOVED");
-                System.out.println(removeitem.getItemID());
-            }
+        }
 
-
-
-
-
+        out.println(res);
 
     }
 }
