@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Random;
 
 @Controller
 public class SaveController {
@@ -34,7 +33,7 @@ public class SaveController {
 
         for(int i = 0; i < todolist.getItems().size(); i++){
             Key itemKey;
-            itemKey = KeyFactory.createKey("PID",todolist.getItems().get(i).getDSID());
+            itemKey = KeyFactory.createKey("PID",todolist.getItems().get(i).getItemID());
             Entity item = new Entity("Item",itemKey);
             item.setProperty("Category",todolist.getItems().get(i).getCategory());
             item.setProperty("Description",todolist.getItems().get(i).getDescription());
@@ -44,7 +43,7 @@ public class SaveController {
             item.setProperty("isPrivate",todolist.isPrivate());
             item.setProperty("SpecialID",id);
             item.setProperty("Email",userService.getCurrentUser().getEmail());
-            item.setProperty("PrimaryID",todolist.getItems().get(i).getDSID());
+            item.setProperty("PrimaryID",todolist.getItems().get(i).getItemID());
             DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
             datastore.put(item);
         }

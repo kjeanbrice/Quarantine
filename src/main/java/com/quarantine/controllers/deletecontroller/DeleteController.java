@@ -25,17 +25,21 @@ public class DeleteController {
         ToDoListBean listBean = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
 
         //ASSUMIGN WE HAVE A WAY TO DETERMINE WHICH ONE IS SELECTED
-        ItemBean item = (ItemBean) request.getSession().getAttribute("SELECTED_ITEM");
+        String item = request.getParameter("itemID");
 
-        String id;
-        id = item.getDSID();
+        ItemBean removeitem = null;
 
-        listBean.getItems().remove(item);
+        for(int i = 0; i < listBean.getItems().size(); i++){
+            if(listBean.getItems().get(i).getItemID() == Integer.parseInt(item)){
+                removeitem = listBean.getItems().get(i);
+            }
+        }
+        listBean.getItems().remove(removeitem);
 
         DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
         Query query = new Query();
 
-        query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",id));
+        query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
         PreparedQuery result = datastore.prepare(query);
         Entity resultitem = result.asSingleEntity();
         datastore.delete(resultitem.getKey());
