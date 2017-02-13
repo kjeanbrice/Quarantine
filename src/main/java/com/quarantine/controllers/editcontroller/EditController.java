@@ -11,13 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Random;
+
 
 /**
  * Created by li on 2/12/2017.
  */
 @Controller
 public class EditController {
+
     @RequestMapping(value = "edititem.htm", method = RequestMethod.GET)
     public void processEditRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -25,13 +26,28 @@ public class EditController {
         // Get the list
         ToDoListBean list;
         list = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
+
+        String frontMappingID = request.getParameter("frontID");
+        if(frontMappingID.trim().length() == 0){
+            out.println("FAILURE");
+            return;
+        }
+
         // Get the array of items
         ArrayList<ItemBean> items;
         items = list.getItems();
-        //Get the index
-        String indexS;
-        indexS = request.getParameter("index");
-        int index = Integer.parseInt(indexS);
+
+        int index = -1;
+        for(int i = 0; i<items.size();i++){
+            if(items.get(i).getFrontMappingID() == Integer.parseInt(frontMappingID)){
+                index = i;
+            }
+        }
+
+        if(index == -1){
+            out.println("FAILURE");
+            return;
+        }
         // Get the item to edit
         ItemBean item = items.get(index);
         // Get the new information
@@ -52,7 +68,7 @@ public class EditController {
             item.setEndDate(endDate);
             item.setCompleted(completed);
             // Place the newly edited item back.
-            items.set(index,item);
+            items.set(index, item);
 
             out.println("SUCCESS");
         }

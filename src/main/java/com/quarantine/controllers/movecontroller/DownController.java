@@ -25,13 +25,29 @@ public class DownController {
         // Get the list
         ToDoListBean list;
         list = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
+        String frontMappingID = request.getParameter("frontID");
+
+        if(frontMappingID.trim().length() == 0){
+            out.println("FAILURE");
+            return;
+        }
+
         // Get the array of items
         ArrayList<ItemBean> items;
         items = list.getItems();
-        //Get the index
-        String indexS;
-        indexS = request.getParameter("index");
-        int index = Integer.parseInt(indexS);
+        int index = -1;
+
+        for(int i = 0; i<items.size();i++){
+            if(items.get(i).getFrontMappingID() == Integer.parseInt(frontMappingID)){
+                index = i;
+            }
+        }
+
+        if(index == -1){
+            out.println("FAILURE");
+            return;
+        }
+
         // Check if the list is empty
         if(!items.isEmpty()) {
             // Check if the item is already at the bottom.
@@ -41,5 +57,7 @@ public class DownController {
                 list.setItems(items);
             }
         }
+
+        out.println("SUCCESS");
     }
 }

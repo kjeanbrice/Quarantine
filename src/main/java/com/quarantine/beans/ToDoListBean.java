@@ -15,7 +15,6 @@ public class ToDoListBean implements Serializable {
     private String id;
     private ArrayList<ItemBean> items;
     private boolean isPrivate;
-    private boolean isSaved;
 
 
     public ToDoListBean() {
@@ -97,14 +96,6 @@ public class ToDoListBean implements Serializable {
         this.email = email;
     }
 
-    public boolean checkSaved(){
-        return isSaved;
-    }
-
-    public void setSaved(boolean status){
-        this.isSaved = status;
-    }
-
     @Override
     public String toString() {
         return "ToDoListBean{" +
@@ -113,13 +104,14 @@ public class ToDoListBean implements Serializable {
                 ", owner='" + owner + '\'' +
                 ", id='" + id + '\'' +
                 ", items=" + items +
-                ", isPrivate=" + isPrivate +
+                ", private=" + isPrivate +
                 '}';
     }
 
     public String generateJSON() {
         String outputString = "{\"email\":\"" + email + "\","
                 + "\"owner\":\"" + owner + "\","
+                + "\"listname\":\"" + listname + "\","
                 + "\"id\":\"" + id + "\","
                 + "\"private\":\"" + isPrivate + "\","
                 + "\"Items\":[";
@@ -127,6 +119,7 @@ public class ToDoListBean implements Serializable {
         if (items.isEmpty()) {
             outputString = "{\"email\":\"" + email + "\","
                     + "\"owner\":\"" + owner + "\","
+                    + "\"listname\":\"" + listname + "\","
                     + "\"id\":\"" + id + "\","
                     + "\"private\":\"" + isPrivate + "\"}";
             return outputString;

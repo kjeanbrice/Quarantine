@@ -21,7 +21,10 @@
 <head>
 
     <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="webjars/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="webresources/css/index_styles.css">
     <title>To Do List Maker</title>
 </head>
@@ -43,15 +46,18 @@
                     List</a>
             </li>
 
-            <li>
-                <a id="load_list" href="javascript:void(0)" title="Load an existing to do list"><span class="glyphicon glyphicon-folder-open"></span>
-                    Load List</a>
+            <li class ="dropdown">
+                <a data-toggle="dropdown" id="load_list" href="javascript:void(0)" title="Load an existing to do list"><span class="glyphicon glyphicon-folder-open"></span>
+                    Load List <span class = "caret"></span></a>
+                    <ul id = "load_list_area" class="dropdown-menu scrollable-menu">
+                        <li><a href="javascript:void(0)">Searching...</a></li>
+                    </ul>
             </li>
             <li>
                 <a id="save_list" href="javascript:void(0)" title="Save to do list"><span class="glyphicon glyphicon-save"></span> Save List</a>
             </li>
             <li>
-                <a id="a_email" href="javascript:void(0)"></a>
+                <a id="a_email" email_val="" href="javascript:void(0)"></a>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
@@ -63,13 +69,13 @@
 
 <div class="container">
 
-    <!-- <div class = "row">
-         <div area = "welcome_area" class = "col-xs-4 col-xs-offset-4 center hide-tag">
+    <div class = "row">
+         <div id = "welcome_area" class = "col-xs-6 col-xs-offset-3 center-text hide-tag">
              <div  class = "vertical-center welcome-properties">
                  <span>WELCOME</span>
              </div>
          </div>
-     </div> -->
+     </div>
 
     <div area="content_area" class="hide-tag">
         <div class="row-padding row">
@@ -82,7 +88,7 @@
                 <span class="col-md-2 subheading-label">Details</span>
             </div>
             <div class="style-glow">
-                <div class="row">
+                <div class="row padding-top">
                     <div class="col-md-2">
                         <label for="list_name" class="input-label col-form-label">List name: </label>
                     </div>
@@ -94,12 +100,21 @@
                     </div>
                     <div class="col-md-4"></div>
                 </div>
-                <div class="row">
+                <div class="row padding-top">
                     <div class="col-md-2">
                         <label for="owner_name" class="input-label col-form-label">Owner: </label>
                     </div>
                     <div class="col-md-2">
                         <input type="text" id="owner_name">
+                    </div>
+                    <div class="col-md-8"></div>
+                </div>
+                <div class="row padding-top" >
+                    <div class="col-md-2">
+                        <label for="owner_name" class="input-label col-form-label">List Privacy: </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input id="chkbox_privacy" data-on="Private" data-width="100" data-off="Public" data-toggle="toggle" data-onstyle="primary" type="checkbox">
                     </div>
                     <div class="col-md-8"></div>
                 </div>
@@ -112,7 +127,7 @@
             </div>
             <div class="row subheading-padding">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#add_modal">
+                    <button id="btn_add_glyph" type="button" class="btn btn-secondary" data-toggle="modal" data-target="#add_modal">
                         <span class="glyphicon glyphicon-plus-sign"></span>
                     </button>
                     <button type="button" class="btn btn-secondary" data-toggle="modal" id = "btn_delete_glyph">
@@ -225,7 +240,7 @@
                     <div class="form-group">
                         <label for="chkbox_completed" class="col-lg-3 control-label">Completed</label>
                         <div class="col-lg-3">
-                            <input type="checkbox" value="" id="chkbox_completed" name="chkbox_completed"
+                            <input  data-on="Yes" data-off="No" data-toggle="toggle" type="checkbox" value="" id="chkbox_completed" name="chkbox_completed"
                                    class="checkbox-inline">
                         </div>
                         <div class="col-lg-offset-6"></div>
@@ -278,12 +293,12 @@
     <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header modal-header-primary">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title"><b><span id = "notification_title"></span></b></h4>
+                <h4 class="modal-title"><span id = "notification_title" class = "notification-font"></span></h4>
             </div>
-            <div class="modal-body">
-                <p><b><span id="notification_textarea"></span></b></p>
+            <div class="modal-body text-center">
+                <p><b><span id="notification_textarea" class = "notification-text"></span></b></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -332,7 +347,7 @@
                     <div class="form-group">
                         <label for="chkbox_completed" class="col-lg-3 control-label">Completed</label>
                         <div class="col-lg-3">
-                            <input type="checkbox" value="" id="edit_completed" name="edit_completed"
+                            <input  data-on="Yes" data-off="No" data-toggle="toggle" type="checkbox" type="checkbox" value="" id="edit_completed" name="edit_completed"
                                    class="checkbox-inline">
                         </div>
                         <div class="col-lg-offset-6"></div>
@@ -357,5 +372,6 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="webresources/js/to_do_list_transactions.js"></script>
 </html>

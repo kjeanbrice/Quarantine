@@ -27,18 +27,19 @@ public class StartDateController {
         // Get the list
         ToDoListBean list;
         list = (ToDoListBean) request.getSession().getAttribute("ACTIVE_LIST");
+        String method = request.getParameter("method");
+        if(method.trim().length() == 0){
+            out.println("FAILURE");
+            return;
+        }
+
         // Get the array of items
         ArrayList<ItemBean> items;
         items = list.getItems();
         // Check if the list is empty
         if(!items.isEmpty()) {
-            //  We will swap between sorts.
-            boolean sorted = true;
-            for (int i = 1; i < items.size(); i++) {
-                if (items.get(i-1).getStartDate().compareTo(items.get(i).getStartDate()) > 0) sorted = false;
-            }
             // Sort the Items
-            if(!sorted) {
+            if(method.trim().equalsIgnoreCase("ascend")) {
                 // Sort ABC
                 Collections.sort(items, new Comparator<ItemBean>() {
                     @Override
@@ -59,6 +60,7 @@ public class StartDateController {
             }
             list.setItems(items);
         }
+        out.println("SUCCESS");
     }
 
 }

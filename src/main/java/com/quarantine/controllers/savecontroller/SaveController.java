@@ -3,6 +3,20 @@ package com.quarantine.controllers.savecontroller;
 import com.google.appengine.api.datastore.*;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.PreparedQuery.TooManyResultsException;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
+import com.google.appengine.api.datastore.Query.SortDirection;
+
 import com.quarantine.beans.ToDoListBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,15 +26,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 
 @Controller
 public class SaveController {
-
-    ArrayList listnames = new ArrayList();
-    ArrayList emailnames = new ArrayList();
-    boolean overwritestatus = false;
-
     @RequestMapping(value = "savelist.htm", method = RequestMethod.GET)
     public void processSaveRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -31,64 +39,72 @@ public class SaveController {
         System.out.println("Active List output: " + todolist.toString());
 
         String listname = request.getParameter("listName");
-
-        if (listname == null || listname.trim().length() == 0) {
+        String privacy = request.getParameter("privacy");
+        if (listname == null || listname.trim().length() == 0 || privacy == null || privacy.trim().length() == 0) {
                 out.println("FAILURE");
         } else {
-            String id = null;
-            //Do a check to see if list name already exists if it does overwrite else do normally
-            if(todolist.checkSaved() == false){
-                if(!listname.isEmpty()){
-                    for(int i = 0; i < listnames.size(); i++){
-                        if(listnames.get(i).equals(listname) && emailnames.get(i).equals(userService.getCurrentUser().getEmail())){
-                            System.out.println("List will be overwritten now");
-                            overwritestatus = true;
-                        }
-                        else{
-                            overwritestatus = false;
-                        }
-                    }
-                    if(overwritestatus == true){
-                        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-                        Query query = new Query("Item");
-                        query.setFilter(Query.FilterOperator.EQUAL.of("ListName",listname));
-                        PreparedQuery result = datastore.prepare(query);
-                        for(Entity e:result.asIterable()){
-                            System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
-                            datastore.delete(e.getKey());
-                        }
-                    }
-                }
-                //Sets the name of the list to be saved.
-                todolist.setListname(listname);
-                id = todolist.generateId();
-                todolist.setId(id);
-                listnames.add(listname);
-                emailnames.add(userService.getCurrentUser().getEmail());
+            //Sets the name of the list to be saved.
+            todolist.setListname(listname.trim());
+            if(privacy.trim().equalsIgnoreCase("true")){
+                todolist.setPrivate(true);
+            }else{
+                todolist.setPrivate(false);
             }
-            //Save bean object to datastore
-            for (int i = 0; i < todolist.getItems().size(); i++) {
-                Key itemKey;
-                itemKey = KeyFactory.createKey("PID", todolist.getItems().get(i).getItemID());
-                Entity item = new Entity("Item", itemKey);
-                item.setProperty("Category", todolist.getItems().get(i).getCategory());
-                item.setProperty("Description", todolist.getItems().get(i).getDescription());
-                item.setProperty("StartDate", todolist.getItems().get(i).getStartDate());
-                item.setProperty("EndDate", todolist.getItems().get(i).getEndDate());
-                item.setProperty("Completed", todolist.getItems().get(i).getCompleted());
+
+            String id = todolist.generateId();
+            todolist.setId(id);
+            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+
+            //Delete any previous list with the same name made by the current email address
+            Filter email_filter = new FilterPredicate("Owner",FilterOperator.EQUAL,userService.getCurrentUser().getEmail());
+            Filter listname_filter = new FilterPredicate("Listname",FilterOperator.EQUAL,listname.trim());
+            CompositeFilter email_listname_filter = CompositeFilterOperator.and(email_filter,listname_filter);
+
+            Query q = new Query("Item").setFilter(email_listname_filter);
+            PreparedQuery pq = datastore.prepare(q);
+
+            for (Entity result : pq.asIterable()) {
+                String category = (String) result.getProperty("Category");
+                String description = (String) result.getProperty("Description");
+                String list_name = (String)result.getProperty("Listname");
+                String owner_email = (String)result.getProperty("Email");
+
+                System.out.println(category + " " + description + ", " + list_name + ", " + owner_email);
+                datastore.delete(result.getKey());
+            }
+
+            if(todolist.getItems().size() == 0) {
+                Entity item = new Entity("Item");
+                item.setProperty("Empty","true");
                 item.setProperty("isPrivate", todolist.isPrivate());
                 item.setProperty("Listname", todolist.getListname());
-                item.setProperty("FrontMappingID", todolist.getItems().get(i).getFrontMappingID());
-                item.setProperty("SpecialID", id);
+                item.setProperty("Owner", todolist.getOwner());
                 item.setProperty("Email", userService.getCurrentUser().getEmail());
-                item.setProperty("PrimaryID", todolist.getItems().get(i).getItemID());
-                item.setProperty("ListName",listname);
-                DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
                 datastore.put(item);
+            }else {
+                //Save bean object to datastore
+                for (int i = 0; i < todolist.getItems().size(); i++) {
+                    Key itemKey;
+                    itemKey = KeyFactory.createKey("PID", todolist.getItems().get(i).getItemID());
+                    Entity item = new Entity("Item", itemKey);
+                    item.setProperty("Category", todolist.getItems().get(i).getCategory());
+                    item.setProperty("Description", todolist.getItems().get(i).getDescription());
+                    item.setProperty("StartDate", todolist.getItems().get(i).getStartDate());
+                    item.setProperty("EndDate", todolist.getItems().get(i).getEndDate());
+                    item.setProperty("Completed", todolist.getItems().get(i).getCompleted());
+                    item.setProperty("isPrivate", todolist.isPrivate());
+                    item.setProperty("Listname", todolist.getListname());
+                    item.setProperty("Owner", todolist.getOwner());
+                    item.setProperty("FrontMappingID", todolist.getItems().get(i).getFrontMappingID());
+                    item.setProperty("SpecialID", id);
+                    item.setProperty("Email", userService.getCurrentUser().getEmail());
+                    item.setProperty("PrimaryID", todolist.getItems().get(i).getItemID());
+                    item.setProperty("Empty", "false");
+                    datastore.put(item);
+                }
             }
-            todolist.setSaved(true);
             out.println("SUCCESS");
-
         }
 
 
