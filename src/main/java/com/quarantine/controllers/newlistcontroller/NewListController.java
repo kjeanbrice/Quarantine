@@ -17,6 +17,7 @@ import java.io.PrintWriter;
  */
 @Controller
 public class NewListController {
+
     @RequestMapping(value="newlist.htm", method = RequestMethod.GET)
     public void processNewListRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -27,6 +28,8 @@ public class NewListController {
             ToDoListBean newList = new ToDoListBean();
             request.getSession().setAttribute("ACTIVE_LIST", newList);
             out.println("NEWLIST:SUCCESS");
+            newList.setSaved(false);
+
         }
         else{
             out.println("NEWLIST:FAILURE");

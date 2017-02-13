@@ -15,6 +15,7 @@ public class ToDoListBean implements Serializable {
     private String id;
     private ArrayList<ItemBean> items;
     private boolean isPrivate;
+    private boolean isSaved;
 
 
     public ToDoListBean() {
@@ -94,6 +95,14 @@ public class ToDoListBean implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean checkSaved(){
+        return isSaved;
+    }
+
+    public void setSaved(boolean status){
+        this.isSaved = status;
     }
 
     @Override

@@ -12,9 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 
 @Controller
 public class SaveController {
+
+    ArrayList listnames = new ArrayList();
+    boolean overwritestatus = false;
+
     @RequestMapping(value = "savelist.htm", method = RequestMethod.GET)
     public void processSaveRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -25,15 +30,40 @@ public class SaveController {
         System.out.println("Active List output: " + todolist.toString());
 
         String listname = request.getParameter("listName");
+
         if (listname == null || listname.trim().length() == 0) {
                 out.println("FAILURE");
         } else {
-            //Sets the name of the list to be saved.
-            todolist.setListname(listname);
-
-            String id = todolist.generateId();
-            todolist.setId(id);
-
+            String id = null;
+            //Do a check to see if list name already exists if it does overwrite else do normally
+            if(todolist.checkSaved() == false){
+                if(!listname.isEmpty()){
+                    for(int i = 0; i < listnames.size(); i++){
+                        if(listnames.get(i).equals(listname)){
+                            System.out.println("List will be overwritten now");
+                            overwritestatus = true;
+                        }
+                        else{
+                            overwritestatus = false;
+                        }
+                    }
+                    if(overwritestatus == true){
+                        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+                        Query query = new Query("Item");
+                        query.setFilter(Query.FilterOperator.EQUAL.of("ListName",listname));
+                        PreparedQuery result = datastore.prepare(query);
+                        for(Entity e:result.asIterable()){
+                            System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
+                            datastore.delete(e.getKey());
+                        }
+                    }
+                }
+                //Sets the name of the list to be saved.
+                todolist.setListname(listname);
+                id = todolist.generateId();
+                todolist.setId(id);
+                listnames.add(listname);
+            }
             //Save bean object to datastore
             for (int i = 0; i < todolist.getItems().size(); i++) {
                 Key itemKey;
@@ -50,10 +80,13 @@ public class SaveController {
                 item.setProperty("SpecialID", id);
                 item.setProperty("Email", userService.getCurrentUser().getEmail());
                 item.setProperty("PrimaryID", todolist.getItems().get(i).getItemID());
+                item.setProperty("ListName",listname);
                 DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
                 datastore.put(item);
             }
+            todolist.setSaved(true);
             out.println("SUCCESS");
+
         }
 
 
