@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class SaveController {
 
     ArrayList listnames = new ArrayList();
+    ArrayList emailnames = new ArrayList();
     boolean overwritestatus = false;
 
     @RequestMapping(value = "savelist.htm", method = RequestMethod.GET)
@@ -39,7 +40,7 @@ public class SaveController {
             if(todolist.checkSaved() == false){
                 if(!listname.isEmpty()){
                     for(int i = 0; i < listnames.size(); i++){
-                        if(listnames.get(i).equals(listname)){
+                        if(listnames.get(i).equals(listname) && emailnames.get(i).equals(userService.getCurrentUser().getEmail())){
                             System.out.println("List will be overwritten now");
                             overwritestatus = true;
                         }
@@ -63,6 +64,7 @@ public class SaveController {
                 id = todolist.generateId();
                 todolist.setId(id);
                 listnames.add(listname);
+                emailnames.add(userService.getCurrentUser().getEmail());
             }
             //Save bean object to datastore
             for (int i = 0; i < todolist.getItems().size(); i++) {
