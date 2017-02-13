@@ -53,6 +53,7 @@ public class DeleteController {
             for(Entity e:result.asIterable()){
                 System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
                 datastore.delete(e.getKey());
+
             }
         }
 
