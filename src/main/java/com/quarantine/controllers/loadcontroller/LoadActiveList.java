@@ -37,8 +37,9 @@ public class LoadActiveList {
         for(Entity e:AllItems.asIterable()){
 
             for(int x=0;x<ActiveList.size();x++){
-                if(ActiveList.get(x).getEmail().equals(email)){
+                if(ActiveList.get(x).getEmail().equals((String)e.getProperty("Email"))){
                     ItemBean newItem=new ItemBean((String)e.getProperty("Category"),(String)e.getProperty("Description"),(String)e.getProperty("StartDate"),(String)e.getProperty("EndDate"),(String) e.getProperty("Completed"));
+                    ActiveList.get(x).getItems().add(newItem);
                 }
                 found=true;
             }
