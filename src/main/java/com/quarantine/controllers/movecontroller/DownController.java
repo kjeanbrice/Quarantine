@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * Created by li on 2/11/2017.
+ * Created by Eric Li and Karl Jean-Brice
  */
 @Controller
 public class DownController {

@@ -1,3 +1,6 @@
+/**
+ * Created by Karl Jean-Brice and Raymond Xue
+ */
 $(document).ready(function () {
 
     show_welcome_area();

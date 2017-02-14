@@ -3,7 +3,7 @@ package com.quarantine.beans;
 import java.io.Serializable;
 
 /**
- * Created by Karl on 2/12/2017.
+ * Created by Karl Jean-Brice
  */
 public class FileBean implements Serializable {
     private String listname;

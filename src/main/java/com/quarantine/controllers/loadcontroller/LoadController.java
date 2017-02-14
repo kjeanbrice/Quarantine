@@ -16,8 +16,10 @@ import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created by Xiangbin on 2/12/2017.
+ * Created by Xiangbin Zeng and Karl Jean-Brice
  */
+
+
 @Controller
 public class LoadController {
 

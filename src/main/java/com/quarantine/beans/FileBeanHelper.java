@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Created by Karl on 2/12/2017.
+ * Created by Karl Jean-Brice
  */
 public class FileBeanHelper implements Serializable {
     private String current_user;

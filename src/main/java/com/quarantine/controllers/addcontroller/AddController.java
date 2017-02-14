@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 import java.util.Random;
 
 /**
- * Created by Karl on 2/8/2017.
+ * Created by Karl Jean-Brice and Raymond Xue
  */
 @Controller
 public class AddController {

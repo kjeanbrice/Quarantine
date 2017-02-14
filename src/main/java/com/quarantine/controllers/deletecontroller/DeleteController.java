@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by Raymond on 2/12/2017.
+ * Created by Raymond Xue and Karl Jean-Brice
  */
 @Controller
 public class DeleteController {

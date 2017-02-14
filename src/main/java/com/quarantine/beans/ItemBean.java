@@ -3,7 +3,7 @@ package com.quarantine.beans;
 import java.io.Serializable;
 
 /**
- * Created by Karl on 2/8/2017.
+ * Created by Karl Jean-Brice
  */
 public class ItemBean implements Serializable{
     private String category;

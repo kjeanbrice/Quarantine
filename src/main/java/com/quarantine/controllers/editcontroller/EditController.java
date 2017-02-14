@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 /**
- * Created by li on 2/12/2017.
+ * Created by Xiangbin Zeng, Karl Jean-Brice, and Eric Li
  */
 @Controller
 public class EditController {

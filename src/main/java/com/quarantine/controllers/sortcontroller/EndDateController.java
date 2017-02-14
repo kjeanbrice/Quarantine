@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 /**
- * Created by li on 2/10/2017.
+ * Created by Eric Li and Karl Jean-Brice
  */
 @Controller
 public class EndDateController {
