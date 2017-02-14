@@ -21,7 +21,7 @@ import java.util.Random;
 public class AddController {
 
 
-    @RequestMapping(value = "additem.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "additem.htm", method = RequestMethod.POST)
     public void processAddRequest(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
@@ -50,6 +50,7 @@ public class AddController {
 
             list.addItem(newItem);
 
+            request.getSession().setAttribute("ACTIVE_LIST",list);
             out.println("SUCCESS");
         }
     }

@@ -61,6 +61,7 @@ public class DescriptionController {
             }
             list.setItems(items);
         }
+        request.getSession().setAttribute("ACTIVE_LIST",list);
         out.println("SUCCESS");
     }
 }

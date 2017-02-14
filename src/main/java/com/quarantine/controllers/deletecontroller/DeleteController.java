@@ -36,7 +36,7 @@ public class DeleteController {
         for(int i = 0; i < listBean.getItems().size(); i++){
             if(listBean.getItems().get(i).getFrontMappingID() == Integer.parseInt(frontID)){
                 removeitem = listBean.getItems().get(i);
-               item = removeitem.getItemID();
+                item = removeitem.getItemID();
                 itemIndex = i;
             }
         }
@@ -44,16 +44,7 @@ public class DeleteController {
         if(removeitem != null){
             listBean.getItems().remove(itemIndex);
             res = "SUCCESS";
-
-            DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-            Query query = new Query("Item");
-
-            query.setFilter(Query.FilterOperator.EQUAL.of("PrimaryID",item));
-            PreparedQuery result = datastore.prepare(query);
-            for(Entity e:result.asIterable()){
-                System.out.println(e.getProperty("FrontMappingID") + ", " + e.getProperty("Listname"));
-                datastore.delete(e.getKey());
-            }
+            request.getSession().setAttribute("ACTIVE_LIST",listBean);
         }
 
         out.println(res);

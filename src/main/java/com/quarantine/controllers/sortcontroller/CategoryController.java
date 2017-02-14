@@ -66,6 +66,7 @@ public class CategoryController {
             System.out.println(items.get(i).getCategory());
         }
 
+        request.getSession().setAttribute("ACTIVE_LIST",list);
         out.println("SUCCESS");
     }
 }

@@ -58,6 +58,7 @@ $(document).ready(function () {
 
                 $('#owner_name').val(JSON_list_items.owner);
 
+
                 if (type === "LOADING") {
                     $('#list_name').val(JSON_list_items.listname);
                     console.log("Private:" + JSON_list_items.private);
@@ -250,7 +251,7 @@ $(document).ready(function () {
                     show_welcome_area();
 
                     console.log("NEWLIST:FAILURE");
-                    notification_title.html("Login?");
+                    notification_title.html("Login");
                     notification_textarea.text("You must login first before you can create a new list.");
                     $('#notification_modal').modal('show');
                     hide_list_area();
@@ -612,7 +613,7 @@ $(document).ready(function () {
 
             var url = "/additem.htm?category=" + category + "&description=" + description + "&startDate=" + startdate + "&endDate=" + enddate + "&completed=" + completed;
             $.ajax({
-                method: 'get',
+                method: 'post',
                 url: url,
                 dataType: 'text',
                 success: function (additem_status) {

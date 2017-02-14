@@ -58,6 +58,7 @@ public class DownController {
             }
         }
 
+        request.getSession().setAttribute("ACTIVE_LIST",list);
         out.println("SUCCESS");
     }
 }

@@ -69,7 +69,7 @@ public class EditController {
             item.setCompleted(completed);
             // Place the newly edited item back.
             items.set(index, item);
-
+            request.getSession().setAttribute("ACTIVE_LIST",list);
             out.println("SUCCESS");
         }
 
